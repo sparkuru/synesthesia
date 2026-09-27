@@ -1,0 +1,28 @@
+# Draft only: requires an implemented image and a confirmed runtime contract.
+services:
+  server:
+    image: "${SYNESTHESIA_SERVER_IMAGE:?Set a built and verified server image}"
+    working_dir: /app
+    ports:
+      - "${SYNESTHESIA_SERVER_BIND_ADDRESS:-127.0.0.1}:${SYNESTHESIA_SERVER_PORT:-8765}:8765"
+    volumes:
+      - type: bind
+        source: "${SYNESTHESIA_SERVER_CONFIG:?Set an absolute path to a validated server config}"
+        target: /app/config/settings.json
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: "${SYNESTHESIA_MODELS_DIRECTORY:?Set an absolute path to manually supplied models}"
+        target: /app/models
+        read_only: true
+        bind:
+          create_host_path: false
+      - server-cache:/app/cache
+      - server-logs:/app/logs
+    tmpfs:
+      - /app/temp
+    restart: "no"
+volumes:
+  server-cache:
+  server-logs:

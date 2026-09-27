@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "schema_status": "draft",
+  "release_ready": false,
+  "package_version": null,
+  "product_name": "synesthesia",
+  "platform": "windows",
+  "architecture": "x86_64",
+  "model_policy": "manual-only",
+  "software": [
+    {
+      "id": "synesthesia-full",
+      "products": ["full"],
+      "file": "synesthesia-full.exe",
+      "origin": "project-build",
+      "version": null,
+      "url": null,
+      "sha256": null
+    },
+    {
+      "id": "synesthesia-server",
+      "products": ["server"],
+      "file": "synesthesia-server.exe",
+      "origin": "project-build",
+      "version": null,
+      "url": null,
+      "sha256": null
+    },
+    {
+      "id": "synesthesia-client",
+      "products": ["client"],
+      "file": "synesthesia-client.exe",
+      "origin": "project-build",
+      "version": null,
+      "url": null,
+      "sha256": null
+    }
+  ],
+  "runtime": {
+    "status": "pending-selection",
+    "full": [],
+    "server": [],
+    "client": []
+  },
+  "models": [
+    {
+      "role": "asr",
+      "products": ["full", "server"],
+      "status": "candidate",
+      "file": "qwen3-asr-1.7b-q4_k.gguf",
+      "repository": "https://huggingface.co/cstr/qwen3-asr-1.7b-GGUF",
+      "revision": "674df5d44b50a63e7102a18895ed20e3f91de301",
+      "size": 1490915200,
+      "sha256": "ec197cef7ccc589fdcae1becc3f4a3de119d0a41e790b898b519b1a048dad8d4",
+      "included": false,
+      "verified_for_project": false
+    },
+    {
+      "role": "translation",
+      "products": ["full", "server"],
+      "status": "candidate",
+      "file": "Hy-MT2-1.8B-UD-Q3_K_XL.gguf",
+      "repository": "https://huggingface.co/unsloth/Hy-MT2-1.8B-GGUF",
+      "revision": "0378cc2780f462f0fd397d0cdd244d2f769de40e",
+      "size": 989983712,
+      "sha256": "bf575b6238c6ae3c35db73af36bc0a749aedf8de17426c1b506e2d332dd9c9ca",
+      "included": false,
+      "verified_for_project": false
+    }
+  ]
+}

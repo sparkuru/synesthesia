@@ -1,0 +1,27 @@
+{
+  "schema_status": "draft",
+  "product": "client",
+  "connection": {
+    "server_url": "ws://127.0.0.1:8765"
+  },
+  "audio": {
+    "source": "system-output",
+    "device": "default"
+  },
+  "languages": {
+    "source": "auto",
+    "target": "zh-Hans"
+  },
+  "overlay": {
+    "always_on_top": true,
+    "mouse_passthrough": false,
+    "show_source": true,
+    "show_translation": true,
+    "history_lines": 3
+  },
+  "storage": {
+    "logs": "logs",
+    "temp": "temp",
+    "record_transcript": false
+  }
+}

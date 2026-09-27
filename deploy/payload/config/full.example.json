@@ -1,0 +1,38 @@
+{
+  "schema_status": "draft",
+  "product": "full",
+  "audio": {
+    "source": "system-output",
+    "device": "default"
+  },
+  "languages": {
+    "source": "auto",
+    "target": "zh-Hans"
+  },
+  "compute": {
+    "backend": "auto",
+    "device": "auto",
+    "fallback": "fail-explicitly"
+  },
+  "models": {
+    "asr": "models/qwen3-asr-1.7b-q4_k.gguf",
+    "translation": "models/Hy-MT2-1.8B-UD-Q3_K_XL.gguf"
+  },
+  "translation": {
+    "draft_enabled": false,
+    "context_sentences": 2
+  },
+  "overlay": {
+    "always_on_top": true,
+    "mouse_passthrough": false,
+    "show_source": true,
+    "show_translation": true,
+    "history_lines": 3
+  },
+  "storage": {
+    "logs": "logs",
+    "cache": "cache/inference",
+    "temp": "temp",
+    "record_transcript": false
+  }
+}

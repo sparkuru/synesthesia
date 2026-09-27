@@ -1,0 +1,28 @@
+{
+  "schema_status": "draft",
+  "product": "server",
+  "server": {
+    "bind": "127.0.0.1",
+    "port": 8765,
+    "max_audio_sessions": 1
+  },
+  "compute": {
+    "backend": "auto",
+    "device": "auto",
+    "fallback": "fail-explicitly"
+  },
+  "models": {
+    "asr": "models/qwen3-asr-1.7b-q4_k.gguf",
+    "translation": "models/Hy-MT2-1.8B-UD-Q3_K_XL.gguf"
+  },
+  "translation": {
+    "draft_enabled": false,
+    "context_sentences": 2
+  },
+  "storage": {
+    "logs": "logs",
+    "cache": "cache/inference",
+    "temp": "temp",
+    "record_transcript": false
+  }
+}
