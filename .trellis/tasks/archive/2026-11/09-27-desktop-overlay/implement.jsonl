@@ -1,0 +1,15 @@
+{"file":".trellis/spec/trellis-plus/index.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":".trellis/spec/trellis-plus/validation.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":".trellis/spec/trellis-plus/development.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":".trellis/spec/guides/cross-layer-thinking-guide.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":".trellis/spec/guides/code-reuse-thinking-guide.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":".trellis/tasks/archive/2026-11/09-27-synesthesia-mvp/research/evidence.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":".trellis/tasks/archive/2026-11/09-27-synesthesia-mvp/research/hardware-baseline.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":".trellis/tasks/archive/2026-11/09-27-synesthesia-mvp/research/model-baseline.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":".trellis/tasks/archive/2026-11/09-27-synesthesia-mvp/research/benchmark-plan.md","reason":"已批准父任务的范围、技术证据与开发/验收契约"}
+{"file":"docs/contracts.md","reason":"Implemented shared config, event identity, immutable publication, audio timeline, budgets, wire and diagnostic contracts; re-read checked current source"}
+{"file":".trellis/spec/backend/index.md","reason":"Current source-backed Rust guidelines and quality gate"}
+{"file":".trellis/spec/backend/core-boundaries.md","reason":"Strict configuration, exact work identity and shared bounded contracts"}
+{"file":".trellis/spec/backend/logging-guidelines.md","reason":"Shared safe diagnostics and persistence budgets"}
+{"file":".trellis/spec/frontend/index.md","reason":"Native presentation authority and quality checklist"}
+{"file":".trellis/tasks/archive/2026-11/09-27-desktop-overlay/research/native-ui-readiness.md","reason":"Fixed native UI candidates, UUPM, tray failure recovery, offline fonts and native evidence plan"}

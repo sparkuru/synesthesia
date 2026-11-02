@@ -1,0 +1,8 @@
+{"file":".trellis/spec/trellis-plus/index.md","reason":"项目验收、主线与任务边界"}
+{"file":".trellis/spec/trellis-plus/validation.md","reason":"原生窗口、设备实测与字幕协议验证边界"}
+{"file":".trellis/spec/trellis-plus/development.md","reason":"工具链确认后的 Docker 开发准备"}
+{"file":".trellis/spec/guides/cross-layer-thinking-guide.md","reason":"音频、领域事件、WS 与窗口之间的契约一致性"}
+{"file":".trellis/tasks/archive/2026-11/09-27-synesthesia-mvp/research/evidence.md","reason":"仓库事实、候选依赖文档与兼容实验缺口"}
+{"file":".trellis/tasks/archive/2026-11/09-27-synesthesia-mvp/research/hardware-baseline.md","reason":"真实 Windows / AMD GPU 硬件基准、Vulkan 枚举与尚未验证的模型能力"}
+{"file":".trellis/tasks/archive/2026-11/09-27-synesthesia-mvp/research/model-baseline.md","reason":"用户模型目录、两款 GGUF 的实测 SHA256、路径契约与尚未验证的来源/兼容性"}
+{"file":".trellis/tasks/archive/2026-11/09-27-synesthesia-mvp/research/benchmark-plan.md","reason":"已批准样本范围、测量定义与分阶段质量/性能发布门槛策略"}

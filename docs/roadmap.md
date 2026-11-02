@@ -2,11 +2,13 @@
 
 以 [PRD](../prd.md) 为验收依据，已有实现见 [状态](status.md)。每步留下可单独运行和回退的版本，支持矩阵只列真实通过的组合。
 
-## R0：正式仓库基础（本次）
+## R0：正式仓库基础（已完成）
 
 落地 PRD、架构、状态、schema 2、统一 CLI、纯呈现投影、配置示例与全工程检查。正式入口默认构建，所有 workspace 成员继续参加质量检查。交付工程基础，不宣称实时应用完成。
 
 ## R1：麦克风 + Fun-ASR + 原文透明字幕
+
+详细规划见 [R1 task](../.trellis/tasks/11-02-r1-microphone-fun-asr/prd.md)，由 [新版父计划](../.trellis/tasks/11-02-desktop-caption-pipeline/prd.md) 协调。首个真实验收平台已由用户确认为 Windows 11 x64；当前为 planning，尚未启动实现。R2–R5 仅保留路线，阶段开始前再详细建任务和审阅。
 
 将 Python 已验证的使用体验转为 Rust 第一条可用链路：
 

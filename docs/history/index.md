@@ -22,6 +22,6 @@
 
 ## 旧任务状态
 
-8 个 `09-27-*` 任务保留在 `.trellis/tasks/`，以便追溯父子关系、原批准与原生实验。它们的 `meta.superseded_by` 指向已归档的 [1102 工程整理任务](../../.trellis/tasks/archive/2026-11/11-02-rust-repository/prd.md)，`meta.historical_status` 记录被新计划取代时的状态。
+8 个 `09-27-*` 任务已按“计划被取代”移入 `.trellis/tasks/archive/2026-11/`，原父子关系、批准与研究继续保留。`meta.superseded_by` 对应 [1102 工程整理](../../.trellis/tasks/archive/2026-11/11-02-rust-repository/prd.md) 的需求变更起点，`meta.replacement_plan` 指向 [新版交付计划](../../.trellis/tasks/11-02-desktop-caption-pipeline/prd.md)。
 
-现有 `task.py list` 不会根据这些自定义字段隐藏任务，仍显示原 planning/in_progress；这不表示当前工作应继续旧方案，也不等于这些任务已验收。`00-bootstrap-guidelines` 是另行按用户要求归档的初始化任务，不能与这些未完成的历史任务混同。
+归档后的 status=completed 只表示关闭：`meta.archive_reason=superseded`、`acceptance_status=not_claimed` 明确没有宣称验收通过，原 planning/in_progress 和原完成日期保存在 historical 字段中。旧任务已从活动列表移除；已有成果及复用映射见 [计划迁移记录](../../.trellis/tasks/11-02-desktop-caption-pipeline/research/plan-transition.md)。`00-bootstrap-guidelines` 是另行归档的初始化任务，不能与旧产品计划的关闭语义混同。

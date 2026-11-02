@@ -1,0 +1,9 @@
+{"file": "prd.md", "reason": "Authoritative product requirements"}
+{"file": "docs/architecture.md", "reason": "Independent recognition and legacy compatibility"}
+{"file": "docs/status.md", "reason": "Current implementation boundaries"}
+{"file": ".trellis/spec/backend/pipeline.md", "reason": "Schema 2 and no-side-effect config checks"}
+{"file": ".trellis/spec/backend/core-boundaries.md", "reason": "Existing identity, reducer, budgets and legacy semantics"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Full workspace and native evidence gates"}
+{"file": ".trellis/spec/frontend/native-ui.md", "reason": "PRD v2 native UI scope"}
+{"file": ".trellis/spec/trellis-plus/validation.md", "reason": "Native residual and documentation validation policy"}
+{"file": ".trellis/tasks/11-02-r1-microphone-fun-asr/research/runtime-plan.md", "reason": "Source-backed runtime gaps and official provider contracts"}

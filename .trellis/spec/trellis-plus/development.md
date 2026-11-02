@@ -30,7 +30,7 @@ The historical deployment Compose draft is not a runnable development service.
 
 ## Historical C1 Environment Evidence
 
-The [C1 native validation](../../tasks/09-27-foundation-and-contracts/research/native-validation.md)
+The [C1 native validation](../../tasks/archive/2026-11/09-27-foundation-and-contracts/research/native-validation.md)
 records its private Rust/MSVC harness on Windows 11. That result applies to the
 then-tested foundation, not current capture, GPU, UI or Windows 10 acceptance.
 The old C5 framework selection is historical research; a current native-window

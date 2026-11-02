@@ -31,7 +31,7 @@ Do not infer React/TypeScript conventions from generated frontend spec titles.
 
 ## Historical C1/C5 Context
 
-The [C1 native report](../../tasks/09-27-foundation-and-contracts/research/native-validation.md)
+The [C1 native report](../../tasks/archive/2026-11/09-27-foundation-and-contracts/research/native-validation.md)
 records the then-tested 36-test foundation on Windows 11. Old C5 plans included
 egui/eframe, tray/click-through recovery and three subtitle groups. Those plans
 and old web/OBS proposals do not replace PRD v2, establish current framework
@@ -104,7 +104,7 @@ For Rust changes, established Cargo gates are `fmt --all -- --check`,
 with `HAKO_NETWORK=none ./hako`; native Windows uses private Cargo/MSVC and
 `--offline` after dependency preparation. See
 [Rust quality](../backend/quality-guidelines.md) and
-[historical native evidence](../../tasks/09-27-foundation-and-contracts/research/native-validation.md).
+[historical native evidence](../../tasks/archive/2026-11/09-27-foundation-and-contracts/research/native-validation.md).
 The Rust CI workflow exists; a complete end-to-end product command and native
 window CI are not established. Tests demonstrate boundary behavior, not
 implementation mirroring or fake adapter readiness. Documentation-only work

@@ -1,0 +1,40 @@
+{
+  "id": "desktop-caption-pipeline",
+  "name": "desktop-caption-pipeline",
+  "title": "PRD v2 桌面字幕交付计划",
+  "description": "按新 PRD 管理独立输入、识别、翻译与透明字幕的分阶段交付；取代旧三角色 MVP 计划。",
+  "status": "planning",
+  "dev_type": "docs",
+  "scope": "prd-v2-delivery-coordination",
+  "package": null,
+  "priority": "P2",
+  "creator": "Elias-Salas",
+  "assignee": "Elias-Salas",
+  "createdAt": "2026-11-02",
+  "completedAt": null,
+  "branch": null,
+  "base_branch": "共感覚ビーコン",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [
+    "11-02-r1-microphone-fun-asr"
+  ],
+  "parent": null,
+  "relatedFiles": [
+    "prd.md",
+    "docs/roadmap.md",
+    "docs/status.md"
+  ],
+  "notes": "",
+  "meta": {
+    "creation_authorization": "2026-11-02 用户要求处理旧计划归档并重新规划；Windows 11 x64 优先。",
+    "target_platform": "Windows 11 x64",
+    "planning_review": "awaiting-final-user-approval",
+    "implementation_approved": false,
+    "replaces": "09-27-synesthesia-mvp",
+    "requirement_convergence": "passed",
+    "prd_convergence": "passed"
+  }
+}

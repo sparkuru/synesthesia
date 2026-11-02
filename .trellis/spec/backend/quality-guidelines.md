@@ -13,8 +13,8 @@ With dependencies cached, set HAKO_NETWORK=none:
 ```
 
 Windows uses the same gates with native Cargo/MSVC, never Docker/WSL.
-C1's [native harness](../../tasks/09-27-foundation-and-contracts/research/native-foundation-check.ps1)
-and [evidence](../../tasks/09-27-foundation-and-contracts/research/native-validation.md)
+C1's [native harness](../../tasks/archive/2026-11/09-27-foundation-and-contracts/research/native-foundation-check.ps1)
+and [evidence](../../tasks/archive/2026-11/09-27-foundation-and-contracts/research/native-validation.md)
 record the exercised Windows 11 baseline. Windows 10 needs separate evidence.
 `.github/workflows/rust.yml` runs the full workspace gates on Linux. Use
 `cargo test --workspace --all-targets --locked` to include example tests.

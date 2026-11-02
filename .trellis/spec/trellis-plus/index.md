@@ -106,9 +106,11 @@ planning, checks, review, commit, and archive requirements.
 No mainline record is established. Root `prd.md` now defines the current
 product, and `docs/roadmap.md` records the delivery order; neither alone
 authorizes autonomous implementation of every stage. The 1102 repository
-cleanup is explicitly authorized, while runtime work still needs its own
-approved scope. Old task approval and task archive alone grant no continuation
-authority. Preserve superseded tasks' historical status and evidence.
+cleanup is archived. The desktop-caption-pipeline parent and R1 child are
+planning; Windows 11 x64 is confirmed, while implementation still needs
+approval of the latest final plan. Old task approval and task archive alone
+grant no continuation authority. Preserve superseded tasks' historical status
+and evidence.
 
 The main session owns orchestration, acceptance mapping, task lifecycle,
 commit, archive, and mainline updates. When delegation is authorized, workers

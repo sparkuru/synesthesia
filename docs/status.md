@@ -20,10 +20,12 @@
 
 ## 保留的历史证据
 
-- [基础契约 Windows 11 验证](../.trellis/tasks/09-27-foundation-and-contracts/research/native-validation.md)。
-- [系统采音 Windows 11 验证](../.trellis/tasks/09-27-system-audio-capture/research/native-validation.md)：受控双频、两代输入、过载和停止；未替代 Windows 10 或完整产品验收。
-- [本地模型短样本实验](../.trellis/tasks/09-27-inference-compatibility/research/native-experiments.md)：真实模型和 GPU，不是全部质量、长时和取消阶段验收。
+- [基础契约 Windows 11 验证](../.trellis/tasks/archive/2026-11/09-27-foundation-and-contracts/research/native-validation.md)。
+- [系统采音 Windows 11 验证](../.trellis/tasks/archive/2026-11/09-27-system-audio-capture/research/native-validation.md)：受控双频、两代输入、过载和停止；未替代 Windows 10 或完整产品验收。
+- [本地模型短样本实验](../.trellis/tasks/archive/2026-11/09-27-inference-compatibility/research/native-experiments.md)：真实模型和 GPU，不是全部质量、长时和取消阶段验收。
 
 本轮没有远程复验。旧任务状态和批准保留历史含义，新工作以当前 PRD 和路线为准。
 
-8 个 September 任务已追加 `meta.superseded_by`、`historical_status` 等历史标记，原 status、批准与父子关系保留。现有任务列表仍会显示它们，不能据此继续旧方案或视为已验收。旧需求的链接映射及资料入口见 [历史资料导航](history/index.md)。
+8 个 September 任务已按 superseded 关闭归档，保留原进度、批准和父子关系；归档 status=completed 不表示产品验收通过，关闭原因与原状态另有明确字段。旧需求的链接映射及资料入口见 [历史资料导航](history/index.md)。
+
+当前活动规划为 [PRD v2 交付父计划](../.trellis/tasks/11-02-desktop-caption-pipeline/prd.md) 及 [R1 麦克风/Fun-ASR/原文字幕](../.trellis/tasks/11-02-r1-microphone-fun-asr/prd.md)，均处于 planning。用户已确认 Windows 11 x64 优先；本次尚未开始运行时实现或验收，以上能力表不变。

@@ -1,0 +1,39 @@
+{
+  "id": "r1-microphone-fun-asr",
+  "name": "r1-microphone-fun-asr",
+  "title": "R1 麦克风、Fun-ASR 与原文透明字幕",
+  "description": "Windows 11 x64 第一条真实链路：麦克风经 Fun-ASR 生成原文透明置顶字幕，含有界停止和资源释放。",
+  "status": "planning",
+  "dev_type": "fullstack",
+  "scope": "r1-windows-microphone-cloud-captions",
+  "package": null,
+  "priority": "P2",
+  "creator": "Elias-Salas",
+  "assignee": "Elias-Salas",
+  "createdAt": "2026-11-02",
+  "completedAt": null,
+  "branch": null,
+  "base_branch": "共感覚ビーコン",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": "11-02-desktop-caption-pipeline",
+  "relatedFiles": [
+    "apps/synesthesia",
+    "crates/synesthesia-core",
+    "crates/synesthesia-audio",
+    "crates/synesthesia-desktop",
+    "config/examples/microphone-fun-asr.json"
+  ],
+  "notes": "",
+  "meta": {
+    "target_platform": "Windows 11 x64",
+    "planning_review": "awaiting-final-user-approval",
+    "implementation_approved": false,
+    "research": "research/runtime-plan.md",
+    "requirement_convergence": "passed",
+    "prd_convergence": "passed"
+  }
+}
