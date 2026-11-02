@@ -1,26 +1,41 @@
 # Project Validation Profile
 
+> Current requirements are [PRD v2](../../../prd.md). Use
+> [Engineering Status](../../../docs/status.md) for implemented capabilities and
+> [Architecture](../../../docs/architecture.md) for migration boundaries.
+> This profile defines validation procedures; historical results remain scoped
+> to their recorded versions, platforms and exercised behavior.
+
 - ownership: project-shared
 - source: project-authored
-- evidence reviewed: 2026-09-27
+- evidence reviewed: 2026-11-02
 
 ## Current Surface
 
-The repository is at requirements/deployment-scaffold stage. Evidence:
+Select checks from Engineering Status, the changed files and the approved task
+acceptance criteria. Formal `apps/synesthesia` configuration validation and
+desktop pure projection can be checked without credentials, models or devices.
+Existing WASAPI and native inference adapters have separate historical evidence;
+their existence does not establish an integrated product.
 
-- `prd.md` requires native audio capture and desktop floating subtitles,
-  including transparency, always-on-top, click-through recovery, multilingual
-  text, and multi-monitor/DPI behavior. Rust and egui/eframe remain candidates.
-- `deploy/README.md`, `deploy/scripts/CONTRACTS.md`, and
-  `deploy/VALIDATION.md` distinguish draft interfaces and structural validation
-  from unavailable applications, installer implementations, images, and models.
-- No application manifest, unit/integration tests, CI workflow, web app,
-  Playwright dependency/configuration, or equivalent browser runner exists.
-- Web/OBS display is proposed later scope in `prd.md`, not an implemented or
-  currently approved browser surface.
+The [Rust CI workflow](../../../.github/workflows/rust.yml) defines full workspace
+format/check/clippy/test/build gates on Linux, including all-target tests. Check
+actual GitHub run records before claiming remote CI passed. Prior local checks
+are recorded in the [1102 validation report](../../tasks/11-02-rust-repository/research/validation.md),
+not rerun by reading this profile.
 
-Classification: planned native desktop UI, with no runnable UI yet.
+No complete live product command, native window or browser surface is integrated.
+Use [Native UI Boundary](../frontend/native-ui.md) for current UI acceptance;
+tray/click-through and a specific framework are not implicit current scope.
 Do not infer React/TypeScript conventions from generated frontend spec titles.
+
+## Historical C1/C5 Context
+
+The [C1 native report](../../tasks/09-27-foundation-and-contracts/research/native-validation.md)
+records the then-tested 36-test foundation on Windows 11. Old C5 plans included
+egui/eframe, tray/click-through recovery and three subtitle groups. Those plans
+and old web/OBS proposals do not replace PRD v2, establish current framework
+selection or extend the acceptance scope of a new task.
 
 ## Trellis Plus: UUPM Integration
 
@@ -82,10 +97,19 @@ write/staging boundary. Run `git diff --check`; newly untracked files also need
 an explicit whitespace/content check because ordinary git diff omits them.
 Do not stage files solely to make them visible to a validator.
 
-No application lint, format, type-check, unit, integration, build, or end-to-end
-command is currently established. Once manifests and CI exist, update this
-profile with exact supported commands and run checks relevant to each diff.
-Tests should demonstrate promised behavior rather than mirror implementation.
+For Rust changes, established Cargo gates are `fmt --all -- --check`,
+`check --workspace --all-targets --locked`,
+`clippy --workspace --all-targets --locked -- -D warnings`,
+`test --workspace --all-targets --locked`, `build --workspace --locked`. Linux prefixes them
+with `HAKO_NETWORK=none ./hako`; native Windows uses private Cargo/MSVC and
+`--offline` after dependency preparation. See
+[Rust quality](../backend/quality-guidelines.md) and
+[historical native evidence](../../tasks/09-27-foundation-and-contracts/research/native-validation.md).
+The Rust CI workflow exists; a complete end-to-end product command and native
+window CI are not established. Tests demonstrate boundary behavior, not
+implementation mirroring or fake adapter readiness. Documentation-only work
+uses the link, content and whitespace checks above; unchanged Rust code does
+not require a new Cargo run.
 
 When deployment artifacts change, use the applicable JSON parsing, Compose
 configuration-only, checksum, archive, and Windows checks identified in
@@ -104,9 +128,13 @@ models, sample data, and acceptance thresholds; do not invent those values.
 ## Native Desktop Residual Review
 
 For relevant implemented changes, request only the real platform checks the
-agent cannot reproduce: system-output capture and permissions, audio-device
-switching, transparency/stacking, click-through recovery, fullscreen limits,
-multilingual fonts, monitor/DPI transitions, and resource release. Name the
+agent cannot reproduce: the changed input's capture and permissions, audio-device
+switching, transparency/stacking, settings/display recovery, fullscreen limits,
+multilingual fonts, resize/monitor/DPI behavior, and resource release. Include
+tray/click-through recovery only when those features are in the implemented
+task scope. Normal Stop must have bounded final-result handling; error/timeout
+cancellation is a separate path. Neither behavior is proved by the old
+stop-cancels-all scheduler. Name the
 target OS and, for Linux, X11/Wayland separately. Record versions, device,
 backend/model, steps, observed behavior, and scoped diagnostic evidence.
 

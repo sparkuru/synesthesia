@@ -1,0 +1,1 @@
+{"protocol_version":1,"request_id":3,"message":{"type":"translation","event":{"id":{"input":{"session_id":1,"input_generation":1},"utterance_id":1},"source_revision":2,"outcome":{"result":"complete","text":"你好"}}}}

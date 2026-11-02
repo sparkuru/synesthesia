@@ -1,2 +1,22 @@
 # Track the deployment scaffold distributed with this repository.
 !deploy/packages/synesthesia-windows-install-scaffold.zip
+
+# Local Linux development caches and Rust build products.
+/.devhome/
+/target/
+
+# Private configuration, credentials, models and runtime content.
+/archive/
+/config/local/
+/models/
+/logs/
+/recordings/
+/transcripts/
+.env
+.env.*
+!.env.example
+*.gguf
+*.safetensors
+*.onnx
+__pycache__/
+*.py[cod]

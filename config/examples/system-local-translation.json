@@ -1,0 +1,13 @@
+{
+  "schema_version": 2,
+  "source_language": "ja",
+  "capture": { "kind": "system", "selection": { "mode": "default" } },
+  "asr": { "provider": "local", "model": "models/asr.gguf", "device": { "backend": "cpu" } },
+  "translation": {
+    "provider": "local",
+    "model": "models/translation.gguf",
+    "device": { "backend": "cpu" },
+    "target_language": "zh-Hans"
+  },
+  "overlay": { "mode": "bilingual", "visible_lines": 3 }
+}

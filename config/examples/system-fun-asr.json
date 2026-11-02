@@ -1,0 +1,13 @@
+{
+  "schema_version": 2,
+  "source_language": "en",
+  "capture": { "kind": "system", "selection": { "mode": "default" } },
+  "asr": {
+    "provider": "fun_asr",
+    "region": "ap-southeast-1",
+    "model": "fun-asr-realtime",
+    "api_key_env": "DASHSCOPE_API_KEY"
+  },
+  "translation": { "provider": "disabled" },
+  "overlay": { "mode": "source_only", "visible_lines": 3 }
+}

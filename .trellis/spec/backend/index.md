@@ -1,38 +1,31 @@
-# Backend Development Guidelines
+# Rust Backend and Shared Contracts
 
-> Best practices for backend development in this project.
-
----
-
-## Overview
-
-This directory contains guidelines for backend development. Fill in each file with your project's specific conventions.
-
----
+Current product: root PRD v2 and docs/architecture.md. Formal entry:
+apps/synesthesia with schema 2. Three-role entries, schema 1 and existing native
+adapters remain for compatibility; independent ASR/translation and complete
+runtime integration are pending.
 
 ## Guidelines Index
 
-| Guide | Description | Status |
-|-------|-------------|--------|
-| [Directory Structure](./directory-structure.md) | Module organization and file layout | To fill |
-| [Database Guidelines](./database-guidelines.md) | ORM patterns, queries, migrations | To fill |
-| [Error Handling](./error-handling.md) | Error types, handling strategies | To fill |
-| [Quality Guidelines](./quality-guidelines.md) | Code standards, forbidden patterns | To fill |
-| [Logging Guidelines](./logging-guidelines.md) | Structured logging, log levels | To fill |
+| Guide | Scope |
+| --- | --- |
+| [Directory Structure](directory-structure.md) | Workspace ownership and role dependencies |
+| [Core Boundaries](core-boundaries.md) | Executable configuration/session/audio/wire contracts |
+| [Pipeline Configuration](pipeline.md) | Current desktop schema 2 and independent choices |
+| [Error Handling](error-handling.md) | Safe typed boundary failures |
+| [Logging](logging-guidelines.md) | Whitelist-only bounded diagnostics |
+| [Quality](quality-guidelines.md) | Gates and meaningful regression coverage |
 
----
+## Pre-Development Checklist
 
-## How to Fill These Guidelines
+Read relevant guides, `docs/contracts.md`, and the active task's approved
+artifacts. Verify source signatures before implementing an adapter. Preserve
+client-without-models and server-without-desktop dependencies. Load applicable
+native-language/tooling skills before adding native code.
 
-For each guideline file:
+## Quality Check
 
-1. Document your project's **actual conventions** (not ideals)
-2. Include **code examples** from your codebase
-3. List **forbidden patterns** and why
-4. Add **common mistakes** your team has made
-
-The goal is to help AI assistants and new team members understand how YOUR project works.
-
----
-
-**Language**: All documentation should be written in **English**.
+Run [Quality](quality-guidelines.md) gates. Review complete task scope and data
+flow, queue/context budgets, exact completion identity, cancellation
+acknowledgements, safe errors and diagnostics. Enumeration, fake adapters and
+Linux checks do not prove Windows loading, inference, capture or residency.

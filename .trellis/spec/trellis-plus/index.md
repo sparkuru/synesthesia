@@ -3,7 +3,7 @@
 - ownership: project-shared
 - source: project-authored
 - tracking: commit this file and its referenced project-owned detail files
-- evidence reviewed: 2026-09-27; Trellis 0.6.14
+- evidence reviewed: 2026-11-02; current product PRD v2; original policy introduced 2026-09-27
 
 ## Scope and Loading
 
@@ -103,10 +103,12 @@ stop conditions recorded in `.trellis/mainline.md`. Stop for ambiguity, risk,
 scope change, dirty unresolved work, or missing dependencies. Keep normal
 planning, checks, review, commit, and archive requirements.
 
-No mainline record is created now: `prd.md` describes proposed scope and open
-decisions, not an approved sequence. The bootstrap-guidelines task is not
-authorization for product development. The next product-priority decision
-belongs to the user; task archive alone grants no continuation authority.
+No mainline record is established. Root `prd.md` now defines the current
+product, and `docs/roadmap.md` records the delivery order; neither alone
+authorizes autonomous implementation of every stage. The 1102 repository
+cleanup is explicitly authorized, while runtime work still needs its own
+approved scope. Old task approval and task archive alone grant no continuation
+authority. Preserve superseded tasks' historical status and evidence.
 
 The main session owns orchestration, acceptance mapping, task lifecycle,
 commit, archive, and mainline updates. When delegation is authorized, workers

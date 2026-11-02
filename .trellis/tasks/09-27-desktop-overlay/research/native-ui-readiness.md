@@ -1,0 +1,147 @@
+# Research: Native overlay, settings and tray readiness
+
+- Query: Concrete egui/eframe approach for the approved Windows 10/11 x64 overlay/settings/tray, offline EN/JA/ZH fonts, DPI and native validation, informed by local UUPM research.
+- Scope: mixed; focused C5 preparation only. C5 remains planning. No UI implementation, dependency/manifest/design/spec/task-state edit, install, SSH, native experiment, or new agent.
+- Date: 2026-09-27
+
+## Findings
+
+### Authority, files and related specs
+
+Read the C5 [PRD](../prd.md) and [design](../design.md), approved parent [PRD](../../09-27-synesthesia-mvp/prd.md) and [design section 7](../../09-27-synesthesia-mvp/design.md), product `prd.md`, `.trellis/spec/frontend/index.md`, `.trellis/spec/frontend/native-ui.md`, `.trellis/spec/trellis-plus/validation.md`, `.trellis/spec/backend/core-boundaries.md`, and the complete 693-line `.codex/skills/ui-ux-pro-max/SKILL.md`. Workflow 1.2 permits preparation research; dependencies must pass their checks before dependent implementation starts.
+
+| Actual local source | Evidence relevant to C5 |
+| --- | --- |
+| `crates/synesthesia-core/src/config.rs:38` | DisplayMode enum; OverlayConfig has mode/history only. Default bilingual/history 3. History bound is 1..20 groups. Font/background/geometry settings are not yet a schema capability. |
+| `crates/synesthesia-core/src/domain.rs:201` | PublishedEvent contains immutable accepted payload; SubtitleReducer owns revision/final/history rules. |
+| `docs/contracts.md:162` | Snapshots are for rendering; events are for ordered publication. No reconstruction of publication from later snapshots or second remote reducer. |
+| `crates/synesthesia-core/src/session.rs` | Runtime stop/cancel/reset effects and model-residency separation; presentation cannot redefine lifecycle. |
+| `crates/synesthesia-audio/src/lib.rs` | Actual C3 exports CaptureHandle, CaptureObservation, render_devices and safe CaptureError/FailureKind. |
+| `crates/synesthesia-audio/src/capture.rs:223` | start, next_chunk, observation, stop; stop joins workers and clears queued old audio. These APIs exist, but C3 checking is incomplete; availability is not a passed integration gate. |
+| `.codex/skills/ui-ux-pro-max/scripts/search.py` | Actual local UUPM query entry; no Rust/egui stack flag. |
+| `.codex/skills/ui-ux-pro-max/data/ux-guidelines.csv`, `typography.csv` | General readability/interaction research inputs; their records are not copied into this report. |
+
+D-05b is **three total utterance groups including current**, not current plus three older groups. Wraps/revision replacement/finalization do not add a group; evicted late translation cannot resurrect it. D-08 starts in editable adjustment mode; watch mode is click-through only with reliable tray recovery. Settings close hides and continues the session; Stop clears work/content while retaining loaded models, Quit releases resources. No new hotkey/autostart/updater scope.
+
+During research, frontend/native-ui.md incorrectly said translation-only hides waiting/errors. Root corrected it to hide source drafts and show waiting/failure until final translation is available; current text was re-read and matches approved parent design:158/product FR-04. The phrase “current plus recent three groups” elsewhere in that guide can still be read as four; use checked OverlayConfig/history semantics and approved D-05b, not that interpretation.
+
+### Fixed dependency/API candidates and Rust baseline
+
+Crates.io primary APIs were checked on this date. Latest egui/eframe is 0.36.2 and declares Rust **1.95**; 0.34/0.35 declare 1.92. Neither fits the approved workspace Rust 1.90 without changing its baseline. Do not copy latest documentation APIs into an older build.
+
+| Candidate | Fixed primary identity | Declared MSRV / constraints |
+| --- | --- | --- |
+| `eframe = "=0.33.3"`, matching egui | [Tag-resolved commit](https://github.com/emilk/egui/tree/44cdd653e2317d300fb8a6c9c36b03f23991e803), [manifest](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/Cargo.toml#L26), [package API](https://crates.io/api/v1/crates/eframe/0.33.3) | Rust 1.88; fits 1.90. eframe checksum `457481173e6db5ca9fa2be93a58df8f4c7be639587aeb4853b526c6cf87db4e6`. Native build/lock resolution not run. |
+| winit 0.30.13 | [Commit](https://github.com/rust-windowing/winit/tree/e9809ef54b18499bb4f2cac945719ecc2a61061b), [Windows platform source](https://github.com/rust-windowing/winit/blob/e9809ef54b18499bb4f2cac945719ecc2a61061b/src/platform/windows.rs#L1) | Rust 1.70; documents Windows 7+ and regular Windows 10 testing. eframe 0.33.3 requests ^0.30.12; lock actual transitive version. This is API support evidence, not our all-Windows validation. |
+| `tray-icon = "=0.25.1"`, Windows-only dependency | [Commit](https://github.com/tauri-apps/tray-icon/tree/b09ceda9f7357b4a1f6bc361fd912a7dfca077cc), [manifest](https://github.com/tauri-apps/tray-icon/blob/b09ceda9f7357b4a1f6bc361fd912a7dfca077cc/Cargo.toml#L3), [versioned docs](https://docs.rs/tray-icon/0.25.1/tray_icon/) | Rust 1.90; MIT OR Apache-2.0. Requires running Windows event loop on owning thread; reexports muda menus. Registration-success gap below is material. |
+| `egui_kittest = "=0.33.3"`, optional dev-only | [Package API](https://crates.io/api/v1/crates/egui_kittest/0.33.3), same egui commit | Rust 1.88; AccessKit-based harness, distinct from Windows window automation. |
+
+Use `eframe` default features off, explicitly `accesskit`, `default_fonts` and one renderer. First compatibility prototype can start with `glow` and transparent OpenGL surface; `wgpu` is a separate candidate using eframe's pinned-generation wgpu 27 APIs, not latest wgpu. Renderer choice remains untested: alpha correctness/driver support and all supported Windows versions must be demonstrated before selection. Rendering backend does not establish inference backend/device use. No change to the approved GPU inference policy follows from UI renderer selection.
+
+[eframe feature source](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/eframe/Cargo.toml#L27) separates glow/wgpu from persistence. Keep automatic eframe persistence **disabled**, `persist_window=false`, and `persist_egui_memory=false` if persistence ever becomes enabled elsewhere. Save only approved non-content settings/validated geometry through the project config owner; do not serialize subtitle/session/widget memory. Existing strict OverlayConfig must be extended deliberately through shared contracts for approved appearance settings, not by accepting arbitrary unknown fields or inventing a competing settings file format here.
+
+### One native event loop, separate overlay and settings viewports
+
+Candidate: an eframe app with the root viewport as overlay and a stable-ID native settings child viewport. Keep window/tray resources on the GUI/event-loop thread; runtime/audio/transport work stays off that thread. Root remains available while settings hides. [NativeOptions](https://docs.rs/eframe/0.33.3/eframe/struct.NativeOptions.html) controls root; [`Context::show_viewport_deferred`](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/egui/src/context.rs#L3891) creates a separate native window. An `egui::Window` alone is an in-window panel, not the independent native settings window required here.
+
+| Behavior | 0.33.3 API / proposed handling |
+| --- | --- |
+| Overlay construction | `ViewportBuilder::with_decorations(false)`, `with_transparent(true)`, `with_always_on_top()`, `with_resizable(true)`, `with_mouse_passthrough(false)`; set safe size/minimum bounds. |
+| Alpha | `App::clear_color` returns transparent RGBA; root CentralPanel/frame fill stays transparent. Paint a separate subtitle background with user alpha. A transparent OS window with an opaque full-window panel is still visually opaque. |
+| Mode change | `send_viewport_cmd_to(root, ViewportCommand::MousePassthrough(bool))`; label actual mode, permit watch only after recovery health gate. Adjustment exposes a drag region and resize handles; watch hides interactive chrome. |
+| Drag/resize | `ViewportCommand::StartDrag` and `BeginResize(ResizeDirection)` on the initiating left-button gesture; neither is guaranteed if sent without the required immediate mouse press. Visible edges/handles in adjustment avoid precision-only dragging. |
+| Settings close | Inspect that viewport's `input.viewport().close_requested()`, send `CancelClose`, then `Visible(false)` and update presentation visibility. Continue managing its stable viewport so close is hide, not root quit. Show via tray `Visible(true)`/`Focus`; keep session unchanged. |
+| Stop | Send a bounded typed runtime command and show pending until actual completion; clear session presentation following shared lifecycle. Do not block update with CaptureHandle::stop/join, model cancellation, network or disk work. |
+| Quit | Begin actual shutdown through controller, keep UI responsive during completion, then root `Close`; dispose tray/viewports and join workers. Do not equate hiding settings with Quit. |
+
+Fixed source: [ViewportBuilder transparency](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/egui/src/viewport.rs#L395), [commands](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/egui/src/viewport.rs#L1024), [App clear_color](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/eframe/src/epi.rs#L215). Root-window close behavior needs deliberate controller handling, since root Close normally shuts down eframe. Do not accidentally let an overlay close event bypass resource shutdown.
+
+Transparent/topmost/passthrough builders are capabilities to test, not guarantees. [egui-winit passthrough](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/egui-winit/src/lib.rs#L1574) calls `set_cursor_hittest(!passthrough)` and only logs errors; it does not return them to the app. [winit Windows implementation](https://github.com/rust-windowing/winit/blob/e9809ef54b18499bb4f2cac945719ecc2a61061b/src/platform_impl/windows/window.rs#L632) also schedules the change and returns Ok. A displayed “watch” flag cannot by itself prove actual window hit-test behavior. Use native observation plus a real underlying controlled-window click test. Do not introduce opaque raw foreign-error logging into the project's safe diagnostics.
+
+`CreationContext`/`Frame` implement [HasWindowHandle](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/eframe/src/epi.rs#L677) in 0.33.3, providing the root Win32 HWND for narrow native observation/recovery. Full winit window access was added in newer eframe; do not assume `Frame::winit_window` exists in this pin. Native helpers can read root styles/bounds and apply checked recovery where necessary, preserving eframe ownership and window lifetime. Thread-affine handles are not arbitrary Send/Sync runtime resources.
+
+Topmost means normal desktop z-order, not a promise to cover exclusive fullscreen, secure desktops or every other topmost window. [SetWindowPos](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos) documents topmost/nonactivation and owner-window effects. Test settings ordering and focus so the overlay does not obscure settings or repeatedly steal focus when subtitles repaint. No Mica/Acrylic/Windows-11-only backdrop API is required for the baseline.
+
+### Tray safety: build success is insufficient
+
+Create native `Menu`, `MenuItem`/`CheckMenuItem` for watch/adjust, settings/recovery, stop and quit through tray-icon's muda reexport. Hold TrayIcon/Menu objects on the running GUI thread. Register `TrayIconEvent::set_event_handler` and `menu::MenuEvent::set_event_handler`; callbacks send small bounded typed UI commands and call egui context `request_repaint_of(root)`. Handler registration routes events away from default receivers; do not simultaneously expect those receivers to receive the same events. Polling an unwoken GUI on subtitle arrivals alone would lose recovery when the session is idle/stopped.
+
+Critical primary-source evidence from [tray-icon Windows source](https://github.com/tauri-apps/tray-icon/blob/b09ceda9f7357b4a1f6bc361fd912a7dfca077cc/src/platform_impl/windows/mod.rs#L159): constructor ignores a failed `Shell_NotifyIconW(NIM_ADD)` and returns Ok, awaiting TaskbarCreated. `set_visible` returns Ok after sending a message. [TaskbarCreated handler](https://github.com/tauri-apps/tray-icon/blob/b09ceda9f7357b4a1f6bc361fd912a7dfca077cc/src/platform_impl/windows/mod.rs#L371) attempts re-registration but ignores its Boolean result. Thus `build().is_ok()` or `set_visible().is_ok()` is not evidence that the recovery entry exists.
+
+**Implementer decision:** tray-icon remains viable only with an observable recovery adapter. Its public [`rect()` and Windows `window_handle()`](https://github.com/tauri-apps/tray-icon/blob/b09ceda9f7357b4a1f6bc361fd912a7dfca077cc/src/lib.rs#L564) provide bounded availability observation/native subclassing hooks. `rect()==Some` reflects successful Shell_NotifyIconGetRect, not proof that menu actions are wired or icon is promoted out of overflow. Establish actual menu-to-adjust recovery with a controlled native test. Observe TaskbarCreated and periodic icon availability with bounded cadence (initial candidate 500 ms, measure it); on missing icon/error restore `MousePassthrough(false)`, visible adjustment controls/settings and a safe failure status. Registration/subclass lifetime and prompt recovery across Explorer restart must be proved. Do not let the background worker silently keep an unreachable watch mode.
+
+If that adapter cannot expose/reliably recover from failure, use a small direct Win32 tray owner instead of claiming library success is sufficient: a top-level hidden window on the GUI thread, `RegisterWindowMessageW("TaskbarCreated")`, checked `Shell_NotifyIconW(NIM_ADD/NIM_SETVERSION/NIM_MODIFY/NIM_DELETE)`, stable GUID, `NOTIFYICON_VERSION_4`, bounded callback commands, native menu, and checked re-registration before watch is re-enabled. A message-only HWND does not receive general top-level broadcasts. This is a researched fallback implementation route, not a second selected UI framework or an implemented adapter.
+
+Primary docs: [notification area](https://learn.microsoft.com/en-us/windows/win32/shell/notification-area) describes native icon/callback/version/DPI behavior and user-controlled overflow; [Shell_NotifyIconGetRect](https://learn.microsoft.com/en-us/windows/win32/api/shellapi/nf-shellapi-shell_notifyicongetrect) documents success/failure and Windows 7+ availability. User-approved MVP already includes a transient app tray; no new notification/autostart feature or approval flow is proposed. Ordinary overflow is not an error by itself. Test both promoted and overflow icon recovery, initial Shell failure, missing Explorer and re-registration failure; startup defaults to operable adjustment in every case. Recovery UI must remain visibly usable even with no subtitle content or zero background alpha.
+
+### Offline multilingual fonts and portable fallback
+
+Default egui fonts [cover Latin/Cyrillic and some emoji only](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/egui/src/lib.rs#L386). OS automatic font fallback does not get invoked by egui's private font rasterizer. Install explicit font bytes with FontDefinitions/font_data/families and Context::set_fonts before text appears. Named source-JA and target-ZH families can use regional glyph forms without assuming OpenType locale shaping; English can use the Latin face in the same bundle or a validated local Latin font.
+
+Portable candidate: Noto Sans CJK **Sans2.004**, commit `523d033d6cb47f4a80c58a35753646f5c3608a78`, original static Regular OTF assets:
+
+| Asset at fixed commit | GitHub content metadata inspected |
+| --- | --- |
+| [Japanese NotoSansCJKjp-Regular.otf](https://github.com/notofonts/noto-cjk/blob/523d033d6cb47f4a80c58a35753646f5c3608a78/Sans/OTF/Japanese/NotoSansCJKjp-Regular.otf) | 16,467,736 bytes; Git blob SHA-1 `f56224957fb13a81b4c14bac34f2f058a017f9fb`. |
+| [Simplified Chinese NotoSansCJKsc-Regular.otf](https://github.com/notofonts/noto-cjk/blob/523d033d6cb47f4a80c58a35753646f5c3608a78/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf) | 16,437,364 bytes; Git blob SHA-1 `dc15562470b4f842321894787a0d066879ccff8b`. |
+
+The [fixed distribution guide](https://github.com/notofonts/noto-cjk/blob/523d033d6cb47f4a80c58a35753646f5c3608a78/Sans/README.md) distinguishes language-specific full coverage from subsets. These ~33 MB combined original assets are a concrete offline packaging candidate; no font bytes were downloaded, parsed or rendered here, and blob SHA-1 is not an asset SHA256. Establish SHA256/license notices and epaint/ab_glyph parsing/glyph coverage in the compatibility experiment before bundling. Static Regular avoids needing a variable-weight control absent from this egui generation. The upstream [release warning](https://github.com/notofonts/noto-cjk/releases/tag/Sans2.004) concerns Windows CFF2 **variable** fonts; it does not prove failure of these static OTF assets or success with this renderer.
+
+The [fixed OFL 1.1 license](https://github.com/notofonts/noto-cjk/blob/523d033d6cb47f4a80c58a35753646f5c3608a78/LICENSE) permits bundling with software subject to retained copyright/license and other conditions; fonts cannot be sold alone. Preserve original metadata/notices, and avoid unsupported subset/conversion/rebranding decisions. Assets can be embedded or placed relative to the executable through RuntimeRoot; never require downloading Google Fonts at runtime or installing fonts system-wide. Startup should remain readable offline before a session begins.
+
+Windows local fallback evidence: official [Windows 10](https://learn.microsoft.com/en-us/typography/fonts/windows_10_font_list) and [Windows 11 font lists](https://learn.microsoft.com/en-us/typography/fonts/windows_11_font_list) list Segoe UI, Microsoft YaHei UI (`msyh.ttc`) and Yu Gothic UI (`yugothm.ttc`); Meiryo and additional East Asian families may be optional supplemental fonts. Validate presence, face index and glyphs instead of assuming a language pack. Resolve the actual Windows font directory, not hardcoded `C:\Windows` or CWD. Use locally installed fonts only for local rendering; the [Microsoft font FAQ](https://learn.microsoft.com/en-us/typography/fonts/font-faq) does not grant blanket rights to redistribute Windows font files in a portable app. This distinguishes a portable OFL bundle from optional Windows-local fallback.
+
+[FontData](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/epaint/src/text/fonts.rs#L117) accepts TTF/OTF and a collection face index. Its [parser path](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/epaint/src/text/fonts.rs#L200) panics on invalid font data. Prevalidate selected bytes/index and controlled EN/JA/ZH corpus using the same pinned-generation parser before set_fonts; fallback explicitly with safe status rather than application panic or undetected missing-glyph boxes. TTC index 0 is not necessarily the chosen UI face. CJK line breaks, kana/kanji punctuation, Latin digits and uncommon accepted characters need actual coverage/wrapping checks.
+
+### DPI, monitor placement and focus
+
+eframe/egui-winit use [window scale factor × egui zoom](https://github.com/emilk/egui/blob/44cdd653e2317d300fb8a6c9c36b03f23991e803/crates/egui-winit/src/lib.rs#L47). Design text/margins in logical points; do not apply a second global manual DPI multiplier. The pinned [winit DPI source](https://github.com/rust-windowing/winit/blob/e9809ef54b18499bb4f2cac945719ecc2a61061b/src/platform_impl/windows/dpi.rs#L20) dynamically attempts per-monitor V2, then V1, then older awareness APIs, providing an early-Windows route. Packaging must not override this with an incompatible DPI manifest; inspect effective awareness in native tests.
+
+Use native EnumDisplayMonitors/GetMonitorInfoW work areas plus current window bounds when validating restored placement, including negative virtual-screen origins. Store monitor-relative logical offsets/size with a stable best-effort monitor identity; restore against current target physical work-area origin and its scale, clamp enough adjustment controls into view, and fall back to an available monitor after removal. Never multiply all absolute mixed-monitor coordinates by one scale or treat remembered monitor indices as durable identities. Recheck on display/DPI changes and tray recovery; avoid resetting user position on every repaint.
+
+[WM_DPICHANGED](https://learn.microsoft.com/en-us/windows/win32/hidpi/wm-dpichanged) supplies new DPI and suggested rectangle; let winit own its window handling and reflow the UI, while native helpers observe/recover geometry. [EnumDisplayMonitors](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enumdisplaymonitors) uses virtual-screen coordinates with a null DC and can include pseudo-monitors, so enumeration count alone is not a visible-placement guarantee. Test 100/125/150/200% mixed scaling, monitor move/removal, taskbar work area, resize, and post-restart settings/overlay visibility.
+
+### UUPM commands actually run and original product recommendations
+
+All following local commands exited 0. No stack flag or `--persist` was used; no MASTER/design-system authority was created. Raw generated tables/data/CSS are not persisted; this section is original synthesis scoped to the approved product.
+
+```text
+python3 .codex/skills/ui-ux-pro-max/scripts/search.py --help
+python3 .codex/skills/ui-ux-pro-max/scripts/search.py 'native Windows live bilingual subtitle overlay minimal content-first readable accessibility tray settings' --design-system -p Synesthesia -f markdown
+python3 .codex/skills/ui-ux-pro-max/scripts/search.py 'keyboard focus error recovery contrast animation accessibility z-index loading' --domain ux -n 5
+python3 .codex/skills/ui-ux-pro-max/scripts/search.py 'readable multilingual sans Japanese Chinese subtitles wrapping' --domain typography -n 3
+python3 .codex/skills/ui-ux-pro-max/scripts/search.py 'font loading text spacing line height readability' --domain ux -n 3
+```
+
+The generated system included a website video-hero layout, web font imports and streaming animations. Those are unsuitable implementation instructions for this native subtitle surface. Applicable research themes were readable multilingual sans faces, contrast, visible keyboard focus, recovery actions and nonblocking feedback. Do not substitute React Native/web CSS, mobile breakpoints, GSAP or an npm icon dependency for egui.
+
+Original prototype recommendations, subject to controlled native readability review:
+
+- One compact subtitle surface, current group visually strongest, prior groups readable with spacing rather than heavy fading. Source above translation; default three total groups. A changed draft replaces text in place; do not animate each token or move the whole window as translation arrives.
+- Start testing at 26 logical-point source and 28-point Chinese, around 1.45 line spacing and 12-point padding. These are experiment values, not frozen defaults/schema bounds. Test long English and Japanese plus Chinese wrap at narrow widths; resize/minimum dimensions must retain all selected groups without changing their count.
+- White text on a near-black subtitle backing initially around 80% opacity. Compute contrast after compositing over bright/dark/video backgrounds; nominal text/backing RGB contrast alone is insufficient with transparency. Keep status/history legible; use text labels plus color for draft/waiting/failure. User opacity/color changes should provide an immediate preview and readable recovery controls.
+- Settings use persistent labels, clear selected source-language/display-mode/device state, field-local safe errors and actual pending/success states. Expose no fake loaded/capturing/connected flag. Present already-approved role-relevant settings without introducing a client model/backend control or server desktop flow.
+- Tab order follows visible layout; buttons have accessible names and focus feedback, with useful keyboard operation inside settings/adjustment. No global hotkey feature. Stop/Quit are separated from ordinary appearance changes; settings close has predictable hide behavior. No animation is required to communicate subtitle updates.
+- Keep the GUI update short: bounded UI commands and an immutable render snapshot from the authoritative runtime/reducer. Presentation filtering changes DisplayMode only; it never reruns ASR/translation. Full/client share rendering, while server has no desktop dependency; client must not gain inference/model imports. Avoid a second UI history/revision reducer and stale-event resurrection.
+
+### Validation capabilities and smallest meaningful experiment
+
+Use checked C1 first and wait for C3 check before dependent capture integration. The initial **model-free native UI prototype** can use a controlled reducer fixture: source draft→replacement→final, pending/failing/matching translation, three-group eviction and stale late events. Open real transparent topmost overlay and independent settings, create tray, exercise watch→tray adjustment, settings close/reopen, idle repaint wake, Stop clearing fixture state and Quit releasing handles. Validate font rendering offline and change DPI/monitor placement. A screenshot or builder compiling alone does not establish this lifecycle.
+
+Automation layers must remain distinct:
+
+1. Existing core reducer tests cover identity/final/publication semantics. Future `egui_kittest` 0.33.3 [Harness](https://docs.rs/egui_kittest/0.33.3/egui_kittest/) can assert displayed source/translation/status, named settings controls, keyboard actions and reflow at sizes/pixels_per_point using controlled fixtures. Source exposes set_size/set_pixels_per_point and AccessKit tree queries. It does not exercise Windows tray, actual click-through, WM_DPICHANGED, OS stacking or full resource shutdown.
+2. Native Windows automation can inspect exposed AccessKit→UI Automation nodes and invoke controls through `IUIAutomation`/control patterns, verify Win32 styles/rectangles, and send controlled input to an underlying test window. Official [UI Automation testing](https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-usefortesting) and [Inspect](https://learn.microsoft.com/en-us/windows/win32/winauto/inspect-objects) describe the capability. Inspect comes with Windows SDK and is now a legacy inspection tool; availability here was not probed, and no winapp/WinAppDriver CLI or plugin is assumed installed. Enabling accesskit is not itself proof that every custom widget exposes correct names/patterns or Narrator output.
+3. Optional rendered fixture snapshots require actual egui_kittest renderer/features; snapshot support alone is not a complete native-window runner. Save only controlled synthetic content with explicit artifact policy; diagnostics/screenshots must not retain live audio/subtitles/tokens. No approved visual baseline exists yet.
+4. Native platform automation must precede residual human review. Remaining review covers subjective EN/JA/ZH readability over real video, regional glyph appearance, focus/stacking/fullscreen limitations and unavailable OS/monitor configurations. Test early Windows 10, modern Windows 10 and Windows 11; one Windows 11 pass cannot validate the full approved range.
+
+The validation profile classifies Playwright as **not effective** for this native surface. No browser tool/test was run or reported passed. Do not claim this research proves implementation readiness, or that an egui headless test proves OS transparency/tray safety.
+
+## Caveats / Not Found
+
+- No desktop crate/window/tray/font loader is implemented by this research. Dependency resolution/native linking, alpha renderer selection and actual older-Windows behavior remain experiments; latest egui MSRV cannot silently raise project Rust.
+- Tray registration and runtime loss are a release-blocking safety concern. The proposed rect/native observation adapter or direct tray path must prove recovery before watch is enabled; success-shaped library return values are insufficient.
+- Appearance/geometry config extension, immutable render-snapshot delivery and typed GUI command acknowledgement are integration work against checked shared contracts. No new domain reducer, fake runtime or content persistence may bypass them.
+- Offline font asset identities/license evidence exist, but actual bytes/SHA256, parser acceptance, glyph coverage, regional forms, atlas behavior and font-size/contrast defaults remain untested. Local Windows fonts are optional runtime resources, not redistributable portable assets by default.
+- Root corrected the discovered translation-only status drift during research. Three-total-group semantics remain authoritative despite ambiguous wording elsewhere. No product requirement was changed.
+- UUPM execution succeeded; only original recommendations and exact query provenance are saved here. No bulk dataset/output, CSS scaffold, false Rust stack flag, global design authority or browser validation claim is introduced.

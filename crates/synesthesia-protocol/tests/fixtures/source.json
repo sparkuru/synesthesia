@@ -1,0 +1,1 @@
+{"protocol_version":1,"request_id":2,"message":{"type":"source","event":{"id":{"input":{"session_id":1,"input_generation":1},"utterance_id":1},"revision":1,"phase":"draft","text":"こんにちは","start_sample":0,"end_sample":320}}}

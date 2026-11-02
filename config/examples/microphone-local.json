@@ -1,0 +1,8 @@
+{
+  "schema_version": 2,
+  "source_language": "en",
+  "capture": { "kind": "microphone", "selection": { "mode": "default" } },
+  "asr": { "provider": "local", "model": "models/asr.gguf", "device": { "backend": "cpu" } },
+  "translation": { "provider": "disabled" },
+  "overlay": { "mode": "source_only", "visible_lines": 3 }
+}

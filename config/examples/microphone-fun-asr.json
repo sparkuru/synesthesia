@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "source_language": "zh",
+  "capture": { "kind": "microphone", "selection": { "mode": "default" } },
+  "asr": {
+    "provider": "fun_asr",
+    "region": "cn-beijing",
+    "model": "fun-asr-realtime",
+    "api_key_env": "DASHSCOPE_API_KEY",
+    "sentence_silence_ms": 800
+  },
+  "translation": { "provider": "disabled" },
+  "overlay": { "mode": "source_only", "visible_lines": 3 }
+}

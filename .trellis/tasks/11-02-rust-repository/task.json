@@ -1,0 +1,38 @@
+{
+  "id": "rust-repository",
+  "name": "rust-repository",
+  "title": "新管线 PRD 与 Rust 正式仓库整理",
+  "description": "独立输入、本地/云识别、可选翻译与透明字幕的工程基础。",
+  "status": "completed",
+  "priority": "P2",
+  "creator": "user",
+  "assignee": "Codex",
+  "createdAt": "2026-11-02",
+  "completedAt": "2026-11-02",
+  "parent": null,
+  "children": [],
+  "relatedFiles": [
+    "prd.md",
+    "readme.md",
+    "docs/architecture.md",
+    "docs/status.md",
+    "docs/history/index.md",
+    "deploy/README.md",
+    ".trellis/spec/trellis-plus/validation.md",
+    ".trellis/spec/frontend/native-ui.md"
+  ],
+  "meta": {
+    "authorization": "用户在迁移建议后明确要求新 PRD、整理正式 repo、使用 Rust，并要求继续。",
+    "supersedes_product_plan": "09-27-synesthesia-mvp",
+    "scope": "repository-foundation; live runtime separately verifiable",
+    "validation": "75 tests; fmt/check/clippy/build; 4 CLI examples; no live runtime acceptance",
+    "repository_audit": "research/repository-audit.md",
+    "repository_audit_status": "cleanup-complete; independently-checked",
+    "cleanup_validation": "research/cleanup-validation.md",
+    "cleanup_review": "research/cleanup-review.md",
+    "r0_completed_at": "2026-11-02",
+    "cleanup_authorization": "2026-11-02 用户要求：开始整理；沿用本任务，落实评估中的四项文档与元数据整理，不新建任务、不改产品运行逻辑、不自动提交或推送。",
+    "finish_authorization": "2026-11-02 用户在确认架构合理后明确要求：归档、提交。授权本任务工程基础、整理成果及归档记录的本地提交；不推送，不纳入独立 Trellis 工具升级。"
+  },
+  "branch": "共感覚ビーコン"
+}

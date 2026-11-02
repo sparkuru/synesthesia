@@ -1,6 +1,10 @@
-任务：继续实现本项目的自主实时字幕产品部署交付。
+历史上下文（2026-11-02 标注）：下文来自 2026-09-27 三角色部署草案，已被当前 PRD v2 取代。它不是继续实现、构建、部署或联网的授权。先读 deploy/README.md 的版本边界；源码仓库中的 docs/status.md 与 docs/roadmap.md 才反映当前能力和路线。独立骨架 ZIP 不包含这些外层源码文档，不得仅凭本提示执行旧计划。
 
-先阅读 deploy/README.md、deploy/MENTAL-MODEL.md、deploy/PACKAGE-LAYOUT.md、deploy/INSTALL.md、deploy/scripts/CONTRACTS.md 和 prd.md。
+以下保留旧任务提示供溯源：
+
+旧任务：继续实现本项目的自主实时字幕产品部署交付。
+
+旧方案阅读范围为 deploy/README.md、deploy/MENTAL-MODEL.md、deploy/PACKAGE-LAYOUT.md、deploy/INSTALL.md、deploy/scripts/CONTRACTS.md 和当时位于根目录的旧 PRD（源码中现为 docs/history/2026-09-27-prd.md，不能解释为当前根 PRD）。
 
 1. 产品名称为 synesthesia，提供 synesthesia-full、synesthesia-server、synesthesia-client 三种入口。
 2. full 在本机完成采音、识别、翻译和悬浮展示；server 检测并启用计算资源，接收客户端会话；client 采音、连接算力并显示悬浮字幕。

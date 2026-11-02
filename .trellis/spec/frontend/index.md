@@ -1,39 +1,34 @@
-# Frontend Development Guidelines
+# Native Desktop Guidelines
 
-> Best practices for frontend development in this project.
-
----
-
-## Overview
-
-This directory contains guidelines for frontend development. Fill in each file with your project's specific conventions.
-
----
+Current implementation has a formal Rust entry, platform-free subtitle state,
+and synesthesia-desktop::presentation, a borrowed projection of core Subtitle.
+There is no native window/tray or browser app. Root PRD v2 and current roadmap
+supersede the old C5 plan; historical research remains evidence. React hooks,
+CSS and browser conventions do not apply.
 
 ## Guidelines Index
 
-| Guide | Description | Status |
-|-------|-------------|--------|
-| [Directory Structure](./directory-structure.md) | Module organization and file layout | To fill |
-| [Component Guidelines](./component-guidelines.md) | Component patterns, props, composition | To fill |
-| [Hook Guidelines](./hook-guidelines.md) | Custom hooks, data fetching patterns | To fill |
-| [State Management](./state-management.md) | Local state, global state, server state | To fill |
-| [Quality Guidelines](./quality-guidelines.md) | Code standards, forbidden patterns | To fill |
-| [Type Safety](./type-safety.md) | Type patterns, validation | To fill |
+| Guide | Scope |
+| --- | --- |
+| [Native UI Boundary](native-ui.md) | Existing state authority and approved presentation requirements |
+| [Core Contracts](../backend/core-boundaries.md) | Shared identity, publication and failure behavior |
+| [Validation Profile](../trellis-plus/validation.md) | UUPM and platform-specific evidence |
 
----
+## Pre-Development Checklist
 
-## How to Fill These Guidelines
+Load root PRD, architecture/status, relevant core contracts and active task
+artifacts. For native UI design, load local UUPM as required by the validation
+profile. Pure presentation changes do not select a window framework. Never
+create a second reducer or treat visual lines as stored utterance groups.
 
-For each guideline file:
+## Quality Check
 
-1. Document your project's **actual conventions** (not ideals)
-2. Include **code examples** from your codebase
-3. List **forbidden patterns** and why
-4. Add **common mistakes** your team has made
-
-The goal is to help AI assistants and new team members understand how YOUR project works.
-
----
-
-**Language**: All documentation should be written in **English**.
+For code changes, run Rust gates for affected crates and check shared
+state/identity/revision ownership. For documentation-only changes, check links,
+source references and scope consistency. Once UI exists, verify the approved
+PRD v2 scope: transparency/topmost, recovery controls, wrapping, visual lines
+separate from history, translation-compatible modes and visible errors.
+Do not import C5's fixed three groups, bilingual default or tray/click-through
+scope into current acceptance. Test focus, fonts and monitor/DPI behavior for
+the implemented platform surface. Native automation precedes targeted residual
+human review. Playwright currently has no effective surface.
