@@ -16,7 +16,7 @@
 | 打包安装 | 历史 deploy 骨架 | 不是新发行包 |
 | Linux/macOS 桌面 | 尚未接入 | Linux 编译不算原生支持 |
 
-本轮检查结果见 [验证记录](../.trellis/tasks/11-02-rust-repository/research/validation.md)。CI 是否通过以实际 GitHub 执行记录为准，本地检查不等于远端工作流已运行。
+工程基础检查见 [原验证记录](../.trellis/tasks/archive/2026-11/11-02-rust-repository/research/validation.md)，本次提交前重新执行的全工程检查见 [提交验证](../.trellis/tasks/archive/2026-11/11-02-rust-repository/research/commit-validation.md)。CI 是否通过以实际 GitHub 执行记录为准，本地检查不等于远端工作流已运行。
 
 ## 保留的历史证据
 

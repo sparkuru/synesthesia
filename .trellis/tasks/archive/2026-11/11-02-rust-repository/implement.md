@@ -27,3 +27,11 @@
 - [x] 记录结果，将本任务恢复 completed；不自动提交、推送或归档本任务。
 
 结果见 [补充整理验证](research/cleanup-validation.md) 和 [独立复核](research/cleanup-review.md)。本轮仅文档、元数据及骨架完整性同步，没有运行代码变化，无需重跑 Cargo 或设备验收。
+
+## 归档与提交（用户已授权）
+
+- [x] 全工程提交前检查重新通过，75 项测试通过；见 [提交验证](research/commit-validation.md)。
+- [x] 工程基础与整理成果提交为 `c6af708`，未混入独立 Trellis 工具升级。
+- [x] 本任务移入 `.trellis/tasks/archive/2026-11/11-02-rust-repository`，更新现行文档、归档内部相对链接和 JSONL 引用。
+
+归档后的静态检查见 [归档验证](research/archive-validation.md)。旧任务保留历史状态，不在本次标成完成或归档。

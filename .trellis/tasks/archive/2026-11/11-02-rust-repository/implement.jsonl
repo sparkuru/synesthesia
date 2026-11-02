@@ -5,4 +5,4 @@
 {"file":".trellis/spec/frontend/native-ui.md","reason":"Presentation ownership and native validation limits"}
 {"file": ".trellis/spec/trellis-plus/development.md", "reason": "Current development tooling and historical scope"}
 {"file": ".trellis/spec/trellis-plus/validation.md", "reason": "Documentation, deployment and mechanical validation boundaries"}
-{"file": ".trellis/tasks/11-02-rust-repository/research/repository-audit.md", "reason": "Approved cleanup findings and preservation requirements"}
+{"file": ".trellis/tasks/archive/2026-11/11-02-rust-repository/research/repository-audit.md", "reason": "Approved cleanup findings and preservation requirements"}

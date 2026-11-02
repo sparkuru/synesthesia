@@ -16,7 +16,7 @@
 quality gates include every workspace member. The
 [Rust CI workflow](../../../.github/workflows/rust.yml) defines these gates on
 Linux; its presence does not establish a successful remote run. Prior local
-execution is recorded in the [1102 validation report](../../tasks/11-02-rust-repository/research/validation.md).
+execution is recorded in the [archived 1102 validation report](../../tasks/archive/2026-11/11-02-rust-repository/research/validation.md).
 Use Engineering Status for application and adapter readiness rather than
 inferring it from build configuration or historical UI framework choices.
 

@@ -21,7 +21,7 @@ their existence does not establish an integrated product.
 The [Rust CI workflow](../../../.github/workflows/rust.yml) defines full workspace
 format/check/clippy/test/build gates on Linux, including all-target tests. Check
 actual GitHub run records before claiming remote CI passed. Prior local checks
-are recorded in the [1102 validation report](../../tasks/11-02-rust-repository/research/validation.md),
+are recorded in the [archived 1102 validation report](../../tasks/archive/2026-11/11-02-rust-repository/research/validation.md),
 not rerun by reading this profile.
 
 No complete live product command, native window or browser surface is integrated.
